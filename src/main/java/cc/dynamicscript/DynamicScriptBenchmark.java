@@ -23,6 +23,7 @@ public class DynamicScriptBenchmark {
 
   static Rule emptyRule = new EmptyRule();
   static Rule aviatorRule = new AviatorRule();
+  static Rule javaRule = new JavaRule();
 
   static Map<String, Object> parameters = new HashMap<>();
 
@@ -48,5 +49,10 @@ public class DynamicScriptBenchmark {
   @Benchmark
   public void AviatorRule() {
     Preconditions.checkArgument(aviatorRule.execute(parameters), "AviatorRule");
+  }
+
+  @Benchmark
+  public void JavaRule() {
+    Preconditions.checkArgument(javaRule.execute(parameters), "JavaRule");
   }
 }

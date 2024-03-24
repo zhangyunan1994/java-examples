@@ -15,14 +15,16 @@ import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
-@Warmup(iterations = 5)
-@Measurement(iterations = 5)
+@Warmup(iterations = 1)
+@Measurement(iterations = 1)
 @BenchmarkMode({Mode.Throughput, Mode.AverageTime})
-@Fork(2)
+@Fork(1)
 public class DynamicScriptBenchmark {
 
-  static Rule emptyRule = new EmptyRule();
   static Rule aviatorRule = new AviatorRule();
+  static Rule emptyRule = new EmptyRule();
+  static Rule groovyClassRule = new GroovyClassRule();
+  static Rule groovyScriptRule = new GroovyScriptRule();
   static Rule javaRule = new JavaRule();
 
   static Map<String, Object> parameters = new HashMap<>();
@@ -42,13 +44,23 @@ public class DynamicScriptBenchmark {
   }
 
   @Benchmark
+  public void AviatorRule() {
+    Preconditions.checkArgument(aviatorRule.execute(parameters), "AviatorRule");
+  }
+
+  @Benchmark
   public void EmptyRule() {
     Preconditions.checkArgument(emptyRule.execute(parameters), "EmptyRule");
   }
 
   @Benchmark
-  public void AviatorRule() {
-    Preconditions.checkArgument(aviatorRule.execute(parameters), "AviatorRule");
+  public void GroovyClassRule() {
+    Preconditions.checkArgument(groovyClassRule.execute(parameters), "GroovyClassRule");
+  }
+
+  @Benchmark
+  public void GroovyScriptRule() {
+    Preconditions.checkArgument(groovyScriptRule.execute(parameters), "GroovyScriptRule");
   }
 
   @Benchmark
